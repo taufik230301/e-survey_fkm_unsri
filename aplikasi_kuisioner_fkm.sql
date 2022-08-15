@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2022 at 08:24 AM
+-- Generation Time: Aug 15, 2022 at 10:51 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.13
 
@@ -20,6 +20,145 @@ SET time_zone = "+00:00";
 --
 -- Database: `aplikasi_kuisioner_fkm`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `create_data_umum` (IN `p_id_data_umum ` VARCHAR(255), IN `p_inisial_nama` VARCHAR(50), IN `p_tanggal_lahir` DATE, IN `p_usia` INT(11), IN `p_jenis_kelamin` ENUM('L','P','',''), IN `p_tahun_diagnosa_hiv` VARCHAR(10), IN `p_lama_hiv` INT(100), IN `p_tinggi_badan` INT(100), IN `p_berat_badan` INT(100), IN `p_id_provinisi` CHAR(10), IN `p_id_kabupaten` CHAR(10), IN `p_id_kecamatan` CHAR(10), IN `p_created_at` DATE, IN `p_updated_at` DATE, IN `p_deleted_at` DATE)  NO SQL
+BEGIN
+
+ INSERT INTO data_umum(id_data_umum, inisial_nama, tanggal_lahir, usia, jenis_kelamin, tahun_diagnosa_hiv, lama_hiv, tinggi_badan, berat_badan, id_provinisi, id_kabupaten, id_kecamatan, created_at, updated_at, 	deleted_at)
+ VALUES(p_id_data_umum, p_inisial_nama, p_tanggal_lahir, p_usia, p_jenis_kelamin, p_tahun_diagnosa_hiv, p_lama_hiv, p_tinggi_badan, p_berat_badan, p_id_provinisi, p_id_kabupaten, p_id_kecamatan, p_created_at, p_updated_at, 	p_deleted_at);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `create_jawaban` (IN `p_id_jawaban` VARCHAR(255), IN `p_jawaban` VARCHAR(100), IN `p_created_at` DATE, IN `p_updated_at` DATE, IN `p_deleted_at` DATE)  NO SQL
+BEGIN
+
+ INSERT INTO jawaban(id_jawaban, jawaban, created_at, updated_at, deleted_at)
+ VALUES(p_id_jawaban, p_jawaban, p_created_at, p_updated_at, p_deleted_at);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `create_jawaban_isi` (IN `p_id_jawaban_isi` VARCHAR(255), IN `p_id_pertanyaan` VARCHAR(255), IN `p_id_kategori_pertanyaan` VARCHAR(255), IN `p_jawaban` TEXT, IN `p_id_data_umum` VARCHAR(255), IN `p_created_at` DATE, IN `p_updated_at` DATE, IN `p_deleted_at` DATE)  NO SQL
+BEGIN
+
+ INSERT INTO jawaban_isi(id_jawaban_isi, id_pertanyaan, id_kategori_pertanyaan, jawaban, id_data_umum, created_at, updated_at, deleted_at)
+ VALUES(p_id_jawaban_isi, p_id_pertanyaan, p_id_kategori_pertanyaan, p_jawaban, p_id_data_umum, p_created_at, p_updated_at, p_deleted_at);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `create_jawaban_opsi` (IN `p_id_jawaban_opsi ` VARCHAR(255), IN `p_id_pertanyaan` VARCHAR(255), IN `p_id_kategori_pertanyaan` VARCHAR(255), IN `p_id_jawaban` VARCHAR(255), IN `p_created_at` DATE, IN `p_updated_at` DATE, IN `p_deleted_at` DATE)  NO SQL
+BEGIN
+
+ INSERT INTO jawaban_opsi(id_jawaban_opsi, id_pertanyaan, id_kategori_pertanyaan, jawaban, id_data_umum, created_at, updated_at, deleted_at)
+ VALUES(p_id_jawaban_opsi, p_id_pertanyaan, p_id_kategori_pertanyaan, p_jawaban, p_id_data_umum, p_created_at, p_updated_at, p_deleted_at);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `create_kategori_pertanyaan` (IN `p_id_kategori_pertanyaan` VARCHAR(255), IN `p_kategori_pertanyaan` VARCHAR(100), IN `p_created_at` DATE, IN `p_updated_at` DATE, IN `p_deleted_at` DATE)  NO SQL
+BEGIN
+
+ INSERT INTO kategori_pertanyaan(id_kategori_pertanyaan, kategori_pertanyaan, created_at, updated_at, deleted_at)
+ VALUES(p_id_kategori_pertanyaan, p_kategori_pertanyaan, p_created_at, p_updated_at, p_deleted_at);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `create_pertanyaan` (`p_id_pertanyaan` VARCHAR(255), `p_pertanyaan` VARCHAR(100), `p_created_at` DATE, `p_updated_at` DATE, `p_deleted_at` DATE)  BEGIN
+
+ INSERT INTO pertanyaan(id_pertanyaan, pertanyaan, created_at, updated_at, deleted_at)
+ VALUES(p_id_pertanyaan, p_pertanyaan, p_created_at, p_updated_at, p_deleted_at);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_data_umum` (IN `p_id_data_umum` VARCHAR(255))  NO SQL
+BEGIN
+
+ DELETE FROM data_umum WHERE id_data_umum=p_id_data_umum;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_jawaban` (IN `p_id_jawaban` INT)  NO SQL
+BEGIN
+
+ DELETE FROM jawaban WHERE id_jawaban=p_id_jawaban;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_jawaban_isi` (IN `p_id_jawaban_isi` VARCHAR(255))  NO SQL
+BEGIN
+
+ DELETE FROM jawaban_isi WHERE id_jawaban_isi=p_id_jawaban_isi;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_jawaban_opsi` (IN `p_id_jawaban_opsi` VARCHAR(255))  NO SQL
+BEGIN
+
+ DELETE FROM jawaban_opsi WHERE id_jawaban_opsi=p_id_jawaban_opsi;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_kategori_jawaban` (IN `p_id_kategori_jawaban` VARCHAR(255))  NO SQL
+BEGIN
+
+ DELETE FROM kategori_jawaban WHERE id_kategori_jawaban=p_id_kategori_jawaban;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_pertanyaan` (`p_id_pertanyaan` VARCHAR(255))  BEGIN
+
+ DELETE FROM pertanyaan WHERE id_pertanyaan=p_id_pertanyaan;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_data_umum` (IN `p_id_data_umum` VARCHAR(255), IN `p_inisial_nama` VARCHAR(50), IN `p_tanggal_lahir` DATE, IN `p_usia` INT(100), IN `p_jenis_kelamin` ENUM('L','P'), IN `p_tahun_diagnosa_hiv` VARCHAR(10), IN `p_lama_hiv` INT(100), IN `p_tinggi_badan` INT(100), IN `p_berat_badan` INT(100), IN `p_id_provinisi` CHAR(10), IN `p_id_kabupaten` CHAR(10), IN `p_id_kecamatan` CHAR(10), IN `p_created_at` DATE, IN `p_updated_at` DATE, IN `p_deleted_at` DATE)  NO SQL
+BEGIN
+
+ UPDATE data_umum SET inisial_nama=p_inisial_nama,
+tanggal_lahir=p_tanggal_lahir, usia =p_usia, jenis_kelamin=p_jenis_kelamin, tahun_diagnosa_hiv=p_tahun_diagnosa_hiv, lama_hiv=p_lama_hiv, tinggi_badan=p_tinggi_badan, berat_badan=p_berat_badan, id_provinisi=p_id_provinisi, id_kabupaten=p_id_kabupaten, id_kecamatan=p_id_kecamatan, created_at=p_created_at, updated_at=p_updated_at, deleted_at=p_deleted_at WHERE id_data_umum=p_id_data_umum;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_jawaban` (IN `p_id_jawaban` VARCHAR(255), IN `p_jawaban` VARCHAR(100), IN `p_created_at` DATE, IN `p_updated_at` DATE, IN `p_deleted_at` DATE)  NO SQL
+BEGIN
+
+UPDATE jawaban SET id_jawaban=p_id_jawaban, jawaban = p_jawaban, created_at=p_created_at, updated_at=p_updated_at, deleted_at=p_deleted_at WHERE id_jawaban=p_id_jawaban;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_jawaban_isi` (IN `p_id_jawaban_isi` VARCHAR(255), IN `p_id_pertanyaan` VARCHAR(255), IN `p_id_kategori_pertanyaan` VARCHAR(255), IN `p_jawaban` TEXT, IN `p_id_data_umum` VARCHAR(255), IN `p_created_at` DATE, IN `p_updated_at` DATE, IN `p_deleted_at` DATE)  NO SQL
+BEGIN
+
+ UPDATE jawaban_isi SET id_pertanyaan=p_id_pertanyaan,id_kategori_pertanyaan=p_id_kategori_pertanyaan,
+jawaban=p_jawaban, id_data_umum =p_id_data_umum, created_at=p_created_at, updated_at=p_updated_at, deleted_at=p_deleted_at WHERE id_jawaban_isi = p_id_jawaban_isi;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_jawaban_opsi` (IN `p_id_jawaban_opsi ` VARCHAR(255), IN `p_id_pertanyaan` VARCHAR(255), IN `p_id_kategori_pertanyaan` VARCHAR(255), IN `p_id_jawaban` VARCHAR(255), IN `p_created_at` DATE, IN `p_updated_at` DATE, IN `p_deleted_at` DATE)  NO SQL
+BEGIN
+
+ UPDATE jawaban_opsi SET id_pertanyaan=p_id_pertanyaan,id_kategori_pertanyaan=p_id_kategori_pertanyaan,
+jawaban=p_jawaban, id_data_umum =p_id_data_umum, created_at=p_created_at, updated_at=p_updated_at, deleted_at=p_deleted_at WHERE id_jawaban_opsi = p_id_jawaban_opsi;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_kategori_pertanyaan` (IN `p_id_kategori_pertanyaan` VARCHAR(255), IN `p_kategori_pertanyaan` VARCHAR(100), IN `p_created_at` DATE, IN `p_updated_at` DATE, IN `p_deleted_at` DATE)  NO SQL
+BEGIN
+
+UPDATE kategori_pertanyaan SET kategori_pertanyaan = p_kategori_pertanyaan, created_at=p_created_at, updated_at=p_updated_at, deleted_at=p_deleted_at WHERE id_kategori_pertanyaan = p_id_kategori_pertanyaan;
+
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_pertanyaan` (`p_id_pertanyaan` VARCHAR(255), `p_pertanyaan` VARCHAR(100), `p_created_at` DATE, `p_updated_at` DATE, `p_deleted_at` DATE)  BEGIN
+
+ UPDATE pertanyaan SET pertanyaan = p_pertanyaan, created_at = p_created_at, updated_at= p_updated_at, deleted_at = p_deleted_at WHERE id_pertanyaan=p_id_pertanyaan;
+
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -75152,6 +75291,13 @@ CREATE TABLE `jawaban_isi` (
   `deleted_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `jawaban_isi`
+--
+
+INSERT INTO `jawaban_isi` (`id_jawaban_isi`, `id_pertanyaan`, `id_kategori_pertanyaan`, `jawaban`, `id_data_umum`, `created_at`, `updated_at`, `deleted_at`) VALUES
+('121282713y7', '17t27127', '1721721', 'kres', '18y2918y21', '2019-09-01', '2019-09-01', '2019-09-01');
+
 -- --------------------------------------------------------
 
 --
@@ -83086,20 +83232,6 @@ CREATE TABLE `read_all_jawaban_isi` (
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `read_all_jawaban_kategori_pertanyaan`
--- (See below for the actual view)
---
-CREATE TABLE `read_all_jawaban_kategori_pertanyaan` (
-`id_kategori_pertanyaan` varchar(255)
-,`kategori_pertanyaan` varchar(100)
-,`created_at` date
-,`updated_at` date
-,`deleted_at` date
-);
-
--- --------------------------------------------------------
-
---
 -- Stand-in structure for view `read_all_jawaban_opsi`
 -- (See below for the actual view)
 --
@@ -83123,6 +83255,20 @@ CREATE TABLE `read_all_kabupaten` (
 `id_kabupaten` char(4)
 ,`id_provinsi` char(2)
 ,`kabupaten` varchar(255)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `read_all_kategori_pertanyaan`
+-- (See below for the actual view)
+--
+CREATE TABLE `read_all_kategori_pertanyaan` (
+`id_kategori_pertanyaan` varchar(255)
+,`kategori_pertanyaan` varchar(100)
+,`created_at` date
+,`updated_at` date
+,`deleted_at` date
 );
 
 -- --------------------------------------------------------
@@ -83201,15 +83347,6 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
--- Structure for view `read_all_jawaban_kategori_pertanyaan`
---
-DROP TABLE IF EXISTS `read_all_jawaban_kategori_pertanyaan`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `read_all_jawaban_kategori_pertanyaan`  AS SELECT `kategori_pertanyaan`.`id_kategori_pertanyaan` AS `id_kategori_pertanyaan`, `kategori_pertanyaan`.`kategori_pertanyaan` AS `kategori_pertanyaan`, `kategori_pertanyaan`.`created_at` AS `created_at`, `kategori_pertanyaan`.`updated_at` AS `updated_at`, `kategori_pertanyaan`.`deleted_at` AS `deleted_at` FROM `kategori_pertanyaan` ;
-
--- --------------------------------------------------------
-
---
 -- Structure for view `read_all_jawaban_opsi`
 --
 DROP TABLE IF EXISTS `read_all_jawaban_opsi`;
@@ -83224,6 +83361,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `read_all_kabupaten`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `read_all_kabupaten`  AS SELECT `kabupaten`.`id_kabupaten` AS `id_kabupaten`, `kabupaten`.`id_provinsi` AS `id_provinsi`, `kabupaten`.`kabupaten` AS `kabupaten` FROM `kabupaten` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `read_all_kategori_pertanyaan`
+--
+DROP TABLE IF EXISTS `read_all_kategori_pertanyaan`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `read_all_kategori_pertanyaan`  AS SELECT `kategori_pertanyaan`.`id_kategori_pertanyaan` AS `id_kategori_pertanyaan`, `kategori_pertanyaan`.`kategori_pertanyaan` AS `kategori_pertanyaan`, `kategori_pertanyaan`.`created_at` AS `created_at`, `kategori_pertanyaan`.`updated_at` AS `updated_at`, `kategori_pertanyaan`.`deleted_at` AS `deleted_at` FROM `kategori_pertanyaan` ;
 
 -- --------------------------------------------------------
 
